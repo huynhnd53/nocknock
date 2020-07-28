@@ -1,0 +1,469 @@
+﻿@using DataLibrary.Models
+@model EditProfileModel
+@{
+    Layout = "_Layout2";
+    DataLibrary.Models.ProfileModel thisProfile = Context.Session.GetObjectFromJson<ProfileModel>("profile");
+    ProfileModel viewProfile = ViewData["ViewProfile"] as ProfileModel;
+}
+@section Styles {
+    <link href="@Url.Content("~/css/profile.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="container">
+    <!--Content-->
+    <div class="container-wrapper">
+        <div class="content">
+            <!--LEFT SIDEBAR-->
+            <div class="sidebar left-sidebar">
+                <div class="side-navbar">
+                    <a href="home.html">
+                        <h3><i class="fa fa-home" aria-hidden="true"></i> Home</h3>
+                    </a>
+                    <a href="noti.html">
+                        <h3><i class="fa fa-bell-o" aria-hidden="true"></i> Notification</h3>
+                    </a>
+                    <a href="message.html">
+                        <h3><i class="fa fa-inbox" aria-hidden="true"></i> Message</h3>
+                    </a>
+                    <a asp-action="Logout" asp-controller="Login">
+                        <h3 id="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</h3>
+                    </a>
+                </div>
+            </div>
+            <!--MAIN CONTENT-->
+            <div class="main-content">
+                <div class="content-wrapper">
+                    @if (viewProfile == null)
+                    {
+                        <!--Profile Info-->
+                        <div class="profile-display">
+                            <div class="profile">
+                                <div>
+                                    <div class="profile-img-wrapper"><img src="~/img/@thisProfile.ProfilePhoto" alt=""></div>
+                                </div>
+                                <div class="profile-display-detail">
+                                    <div>
+                                        <p class="profile-name">@thisProfile.ProfileName</p>
+                                        <button type="button" onclick="window.location = '@Url.Action("Edit", "Profile")'"><i class="fa fa-cog" aria-hidden="true"></i> Settings</button>
+                                    </div>
+                                    <div class="account-detail">
+                                        <span>@thisProfile.NoOfPosts</span> &nbsp; posts
+                                        <button class="modal-btn">@thisProfile.Follower</button> followers
+                                        <button class="modal-btn-2">@thisProfile.Following</button> following
+                                    </div>
+                                    <div class="profile-description">
+                                        @thisProfile.Bio
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="profile-display">
+                            <div class="profile">
+                                <div>
+                                    <div class="profile-img-wrapper"><img src="~/img/@viewProfile.ProfilePhoto" alt=""></div>
+                                </div>
+                                <div class="profile-display-detail">
+                                    <div>
+                                        <p class="profile-name">@viewProfile.ProfileName</p>
+                                        <!--Nút Follow-->
+                                        <!-- <button class="follow-button">Follow</button> -->
+                                        <!--Nút following-->
+                                        <div class="following-button">
+                                            <input type="button" value="Following">
+                                        </div>
+                                        <button onclick="window.location='search.html'" class="message"><i class="fa fa-commenting-o" aria-hidden="true"></i> Message</button>
+                                    </div>
+                                    <div class="account-detail">
+                                        <span>@viewProfile.NoOfPosts</span> &nbsp; followers
+                                        <button class="modal-btn">@viewProfile.Follower</button> followers
+                                        <button class="modal-btn-2">@viewProfile.Following</button> following
+                                    </div>
+                                    <div class="profile-description">
+                                        @viewProfile.Bio
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+
+                    <!--create new post-->
+                    <div class="post-area">
+                        <div class="new-post-title">
+                            <p>Create new post</p>
+                        </div>
+                        <form action="">
+                            <div class="new-post">
+                                <div class="post-avatar">
+                                    <img src="img/10.jpg" alt="">
+                                </div>
+                                <div class="post-text">
+                                    <textarea name="status" id="" cols="" rows="8"></textarea>
+                                </div>
+                                <div class="create-post">
+                                    <input type="submit" value="Post">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <h2>My Post</h2>
+                    <hr style="height: 2px; border-width: 0; color: gray; background-color: gray">
+                    <!--new feed-->
+                    <div class="feed-post" onclick="window.location = 'post-detail.html'">
+                        <div class="feed-profile">
+                            <div class="profile">
+                                <div class="profile-img-wrapper"><img src="img/baek.jpg" alt=""></div>
+                                <div class="feed-title-info">
+                                    <a class="profile-name" asp-action="Index" asp-controller="Profile">Duong The Hai</a>
+                                    @Html.ActionLink("Abc", "Index", "Profile", new { id = 1 }, new { Class = "profile-name" })
+                                    <p class="time">2020/05/16</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feed-content">
+                            Mâu thuẫn càng lên tới đỉnh điểm khi hai ông thông gia Bá - Tiền quyết định lên thành phố để thăm con mà không hề báo trước. Vừa lên tới nơi, hai ông đã được một phen sốc toàn tập khi nghe chính miệng Khoa thú nhận với bác Sơn (NSND Trung Anh) rằng mình
+                            đã chia tay. Dĩ nhiên, ông Bá và ông Tiền cũng sớm biết chuyện Khoa đang "cặp kè" với một người phụ nữ hơn tuổi còn Uyên thì "mồi chài" một đại gia trẻ.
+                        </div>
+                        <div class="feed-reaction">
+                            <div class="like"><i class="fa fa-heart-o" aria-hidden="true"></i> (10)</div>
+                            <div class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> (4)</div>
+                        </div>
+                    </div>
+                    <div class="feed-post" onclick="window.location = 'post-detail.html'">
+                        <div class="feed-profile">
+                            <div class="profile">
+                                <div class="profile-img-wrapper"><img src="img/baek.jpg" alt=""></div>
+                                <div class="feed-title-info">
+                                    <a class="profile-name" href="">Duong The Hai</a>
+                                    <p class="time">2020/05/16</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feed-content">
+                            Sao anh lại rẽ phải trong khi em rẽ trái
+                        </div>
+                        <div class="feed-reaction">
+                            <div class="like"><i class="fa fa-heart-o" aria-hidden="true"></i> (10)</div>
+                            <div class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> (4)</div>
+                        </div>
+                    </div>
+                    <div class="feed-post" onclick="window.location = 'post-detail.html'">
+                        <div class="feed-profile">
+                            <div class="profile">
+                                <div class="profile-img-wrapper"><img src="img/baek.jpg" alt=""></div>
+                                <div class="feed-title-info">
+                                    <a class="profile-name" href="">Duong The Hai</a>
+                                    <p class="time">2020/05/16</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feed-content">
+                            Sao anh lại rẽ phải trong khi em rẽ trái
+                        </div>
+                        <div class="feed-reaction">
+                            <div class="like"><i class="fa fa-heart-o" aria-hidden="true"></i> (10)</div>
+                            <div class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> (4)</div>
+                        </div>
+                    </div>
+                    <div class="feed-post" onclick="window.location = 'post-detail.html'">
+                        <div class="feed-profile">
+                            <div class="profile">
+                                <div class="profile-img-wrapper"><img src="img/baek.jpg" alt=""></div>
+                                <div class="feed-title-info">
+                                    <a class="profile-name" href="">Duong The Hai</a>
+                                    <p class="time">2020/05/16</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feed-content">
+                            Sao anh lại rẽ phải trong khi em rẽ trái
+                        </div>
+                        <div class="feed-reaction">
+                            <div class="like"><i class="fa fa-heart-o" aria-hidden="true"></i> (10)</div>
+                            <div class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> (4)</div>
+                        </div>
+                    </div>
+                    <div class="paging">
+                        <span><a href="">1</a></span>
+                        <span><a href="">2</a></span>
+                        <span><a href="">3</a></span>
+                        <span><a href="">4</a></span>
+                        <span><a href="">5</a></span>
+                        <span><a href="">6</a></span>
+                    </div>
+                </div>
+            </div>
+            <!--RIGHT SIDEBAR-->
+            <div class="sidebar">
+                <div class="right-sidebar">
+                    <!--FOLLOW BOX-->
+                    <div class="follow-box">
+                        <div class="follows-title">
+                            <p>Who to follow</p>
+                        </div>
+                        <div class="mini-profile">
+                            <div>
+                                <div class="mini-profile-avatar">
+                                    <img src="img/10.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="profile-info">
+                                <p class="profile-name"><a href="other-person.html">Lê Hồng Ngọc</a></p>
+                                <p class="follower">100 followers</p>
+                            </div>
+                            <div class="following-button">
+                                <input type="button" value="Following">
+                            </div>
+                        </div>
+                        <div class="mini-profile">
+                            <div>
+                                <div class="mini-profile-avatar">
+                                    <img src="img/baek.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="profile-info">
+                                <p class="profile-name"><a href="other-person.html">Byun Baekhyun</a></p>
+                                <p class="follower">100 followers</p>
+                            </div>
+                            <div class="follow-button">
+                                <input type="button" value="Follow">
+                            </div>
+                        </div>
+                        <div class="mini-profile">
+                            <div>
+                                <div class="mini-profile-avatar">
+                                    <img src="img/stranger.png" alt="">
+                                </div>
+                            </div>
+                            <div class="profile-info">
+                                <p class="profile-name"><a href="other-person.html">Stranger Things</a></p>
+                                <p class="follower">100 followers</p>
+                            </div>
+                            <div class="follow-button">
+                                <input type="button" value="Follow">
+                            </div>
+                        </div>
+                        <div class="follow-seemore">
+                            <a href="">See more</a>
+                        </div>
+                    </div>
+                    <!--TREND BOX-->
+                    <div class="trend-box">
+                        <div class="trend-title">
+                            <p>Trends</p>
+                        </div>
+                        <a href="">
+                            <div class="trend-item">
+                                <div class="trend-detail">
+                                    <h3>#BlackLivesMatter</h3>
+                                    <p>34K</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="">
+                            <div class="trend-item">
+                                <div class="trend-detail">
+                                    <h3>#FU</h3>
+                                    <p>34K</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="">
+                            <div class="trend-item">
+                                <div class="trend-detail">
+                                    <h3>#HuanRose</h3>
+                                    <p>34K</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="">
+                            <div class="trend-item">
+                                <div class="trend-detail">
+                                    <h3>#Candy1stWIN</h3>
+                                    <p>34K</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="">
+                            <div class="trend-item">
+                                <div class="trend-detail">
+                                    <h3>#Covid19</h3>
+                                    <p>34K</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--POP UP FOLLOWER: only visiable when click button 'Follower'-->
+<div class="modal-bg">
+    <div class="modal">
+        <h3>Followers</h3>
+        <div class="people">
+            <div class="mini-profile">
+                <div>
+                    <div class="mini-profile-avatar">
+                        <img src="img/10.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <p class="profile-name"><a href="other-person.html">Lê Hồng Ngọc</a></p>
+                    <p class="follower">100 followers</p>
+                </div>
+                <div class="follow-button">
+                    <input type="button" value="Follow">
+                </div>
+            </div>
+            <div class="mini-profile">
+                <div>
+                    <div class="mini-profile-avatar">
+                        <img src="img/10.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <p class="profile-name"><a href="other-person.html">Lê Hồng Ngọc</a></p>
+                    <p class="follower">100 followers</p>
+                </div>
+                <div class="following-button">
+                    <input type="button" value="Following">
+                </div>
+            </div>
+            <div class="mini-profile">
+                <div>
+                    <div class="mini-profile-avatar">
+                        <img src="img/baek.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <p class="profile-name"><a href="other-person.html">Byun Baekhyun</a></p>
+                    <p class="follower">100 followers</p>
+                </div>
+                <div class="follow-button">
+                    <input type="button" value="Follow">
+                </div>
+            </div>
+        </div>
+        <span class="modal-close">X</span>
+    </div>
+</div>
+
+<!--POP UP FOLLOWING: only visiable when click button 'Following'-->
+<div class="modal-bg-2">
+    <div class="modal-2">
+        <h3>Following</h3>
+        <div class="people">
+            <div class="mini-profile">
+                <div>
+                    <div class="mini-profile-avatar">
+                        <img src="img/10.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <p class="profile-name"><a href="other-person.html">Lê Hồng Ngọc</a></p>
+                    <p class="follower">100 followers</p>
+                </div>
+                <div class="following-button">
+                    <input type="button" value="Following">
+                </div>
+            </div>
+            <div class="mini-profile">
+                <div>
+                    <div class="mini-profile-avatar">
+                        <img src="img/10.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <p class="profile-name"><a href="other-person.html">Lê Hồng Ngọc</a></p>
+                    <p class="follower">100 followers</p>
+                </div>
+                <div class="following-button">
+                    <input type="button" value="Following">
+                </div>
+            </div>
+            <div class="mini-profile">
+                <div>
+                    <div class="mini-profile-avatar">
+                        <img src="img/10.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <p class="profile-name"><a href="other-person.html">Lê Hồng Ngọc</a></p>
+                    <p class="follower">100 followers</p>
+                </div>
+                <div class="following-button">
+                    <input type="button" value="Following">
+                </div>
+            </div>
+            <div class="mini-profile">
+                <div>
+                    <div class="mini-profile-avatar">
+                        <img src="img/10.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <p class="profile-name"><a href="other-person.html">Lê Hồng Ngọc</a></p>
+                    <p class="follower">100 followers</p>
+                </div>
+                <div class="following-button">
+                    <input type="button" value="Following">
+                </div>
+            </div>
+            <div class="mini-profile">
+                <div>
+                    <div class="mini-profile-avatar">
+                        <img src="img/10.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <p class="profile-name"><a href="other-person.html">Lê Hồng Ngọc</a></p>
+                    <p class="follower">100 followers</p>
+                </div>
+                <div class="following-button">
+                    <input type="button" value="Following">
+                </div>
+            </div>
+            <div class="mini-profile">
+                <div>
+                    <div class="mini-profile-avatar">
+                        <img src="img/10.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <p class="profile-name"><a href="other-person.html">Lê Hồng Ngọc</a></p>
+                    <p class="follower">100 followers</p>
+                </div>
+                <div class="following-button">
+                    <input type="button" value="Following">
+                </div>
+            </div>
+            <div class="mini-profile">
+                <div>
+                    <div class="mini-profile-avatar">
+                        <img src="img/baek.jpg" alt="">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <p class="profile-name"><a href="other-person.html">Byun Baekhyun</a></p>
+                    <p class="follower">100 followers</p>
+                </div>
+                <div class="follow-button">
+                    <input type="button" value="Follow">
+                </div>
+            </div>
+        </div>
+        <span class="modal-close-2">X</span>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="@Url.Content("~/js/stickyHeader.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/js/active-modal.js")"></script>
+}

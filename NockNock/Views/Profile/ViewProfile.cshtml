@@ -1,0 +1,244 @@
+﻿@using Microsoft.AspNetCore.Http
+@using static DataLibrary.BusinessRule.ReactionProcessor
+@using static DataLibrary.BusinessRule.FollowProcessor
+@using DataLibrary.Models
+@model IEnumerable<NockNock.Models.PostModel>
+@{
+    ViewData["Title"] = "ViewProfile";
+    Layout = "~/Views/Shared/_ProfileLayout.cshtml";
+}
+
+@{
+    var profile = ViewBag.profile as DataLibrary.Models.ProfileModel;
+    int profileid = profile.ProfileID;
+    var username = Context.Session.GetString("username");
+    var follower = Context.Session.GetString("follower");
+    var following = Context.Session.GetString("following");
+    var noOfPost = Context.Session.GetString("noOfPosts");
+    DataLibrary.Models.ProfileModel pro = SessionHelper.GetObjectFromJson<DataLibrary.Models.ProfileModel>(Context.Session, "profile");
+}
+
+@{
+    //if profileid = session.profileid
+    if (profileid == pro.ProfileID)
+    {
+        <div class="profile-display">
+            <div class="profile">
+                <div>
+                    <div class="profile-img-wrapper"><img src="/img/@pro.ProfilePhoto" alt=""></div>
+                </div>
+                <div class="profile-display-detail">
+                    <div>
+                        <p class="profile-name">@pro.ProfileName</p>
+                        <button type="button" onclick="window.location='@Url.Action("Edit", "Profile")'"><i class="fa fa-cog" aria-hidden="true"></i> Settings</button>
+                    </div>
+                    <div class="account-detail">
+                        <span>@noOfPost</span> &nbsp; posts
+                        <button class="modal-btn">@follower</button> followers
+                        <button class="modal-btn-2">@following</button> following
+                    </div>
+                    <div class="profile-description">
+                        @pro.Bio
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--create new post-->
+        <div class="post-area">
+            <div class="new-post-title">
+                <p>Create new post</p>
+            </div>
+            <form action="/Profile/NewPost?profileid=@pro.ProfileID" method="post">
+                <div class="new-post">
+                    <div class="post-avatar">
+                        <img src="/img/@pro.ProfilePhoto" alt="">
+                    </div>
+                    <div class="post-text">
+                        <textarea name="status" rows="7" required></textarea>
+                    </div>
+                    <div class="create-post">
+                        <input type="submit" value="Post">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <h2>My Post</h2>
+    }
+    //profileid != session.profileid
+    else
+    {
+        bool isFollow = isFollowing(pro.ProfileID, profile.ProfileID);
+        <div class="profile-display">
+            <div class="profile">
+                <div>
+                    <div class="profile-img-wrapper"><img src="/img/@profile.ProfilePhoto" alt=""></div>
+                </div>
+                <div class="profile-display-detail">
+                    <div>
+
+                        <p class="profile-name">@profile.ProfileName</p>
+                        <form action="/Profile/Follow?id=@profile.ProfileID" method="post">
+                            @{
+                                if (isFollow)
+                                {
+                                    <div class="following-button">
+                                        <input type="submit" value="Following">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="follow-button">
+                                        <input type="submit" value="Follow">
+                                    </div>
+                                }
+                            }
+                        </form>
+                        <button onclick="window.location=''" class="message"><i class="fa fa-commenting-o" aria-hidden="true"></i> Message</button>
+                    </div>
+                    <div class="account-detail">
+                        <span>@profile.NoOfPosts</span> &nbsp; followers
+                        <button class="modal-btn">@profile.Follower</button> followers
+                        <button class="modal-btn-2">@profile.Following</button> following
+                    </div>
+                    <div class="profile-description">
+                        @profile.Bio
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+}
+
+<hr style="height:2px;border-width:0;color:gray;background-color:gray">
+<!--new feed-->
+@foreach (var item in Model)
+{
+    string imgPath = "/img/" + item.ProfileImage;
+    string shortDate = item.PostDate.ToShortDateString();
+    bool check = checkLike(username, item.PostID);
+    <div class="feed-post" onclick="window.location='/Home/ViewDetail?id=@item.PostID'">
+        <div class="feed-profile">
+            <div class="profile">
+                <div class="profile-img-wrapper"><img src="@imgPath" alt=""></div>
+                <div class="feed-title-info">
+                    <a class="profile-name" href="/Profile/ViewProfile?profileid=@item.ProfileID">@item.ProfileName</a>
+                    <p class="time">@shortDate</p>
+                </div>
+            </div>
+        </div>
+        <div class="feed-content">
+            @item.PostContent
+        </div>
+        <div class="feed-reaction">
+            @{
+                if (check == true)
+                {
+                    <div class="like"><i style="color: red;" class="fa fa-heart" aria-hidden="true"></i> (@item.NoOfLikes)</div>
+                }
+                else
+                {
+                    <div class="like"><i class="fa fa-heart-o" aria-hidden="true"></i> (@item.NoOfLikes)</div>
+                }
+            }
+
+            <div class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> (@item.NoOfCmts)</div>
+        </div>
+    </div>
+}
+@{
+    var followerList = ViewBag.followerlist as List<ProfileModel>;
+}
+<!--POP UP FOLLOWER: only visiable when click button 'Follower'-->
+<div class="modal-bg">
+    <div class="modal">
+        <h3>Followers</h3>
+        <div class="people">
+            @{
+                foreach (var item in followerList)
+                {
+                    Boolean check = isFollowing(pro.ProfileID, item.ProfileID);
+                        <div class="mini-profile">
+                            <div>
+                                <div class="mini-profile-avatar">
+                                    <img src="/img/@item.ProfilePhoto" alt="">
+                                </div>
+                            </div>
+                            <div class="profile-info">
+                                <p class="profile-name"><a href="/Profile/ViewProfile?profileid=@item.ProfileID">@item.ProfileName</a></p>
+                                <p class="follower">@item.Follower followers</p>
+                            </div>
+                            @{
+                                //if item's id in list != my session id
+                                if (pro.ProfileID != item.ProfileID)
+                                {
+                                    if (check)
+                                    {
+                                        <div class="following-button">
+                                            <input type="button" value="Following">
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="follow-button">
+                                            <input type="button" value="Follow">
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                }
+            }
+
+        </div>
+        <span class="modal-close">X</span>
+    </div>
+</div>
+@{
+    var followingList = ViewBag.followinglist as List<ProfileModel>;
+}
+<!--POP UP FOLLOWING: only visiable when click button 'Following'-->
+<div class="modal-bg-2">
+    <div class="modal-2">
+        <h3>Following</h3>
+        @{
+            foreach (var item in followingList)
+            {
+                Boolean check = isFollowing(pro.ProfileID, item.ProfileID);
+                <div class="people">
+                            <div class="mini-profile">
+                                <div>
+                                    <div class="mini-profile-avatar">
+                                        <img src="/img/@item.ProfilePhoto" alt="">
+                                    </div>
+                                </div>
+                                <div class="profile-info">
+                                    <p class="profile-name"><a href="/Profile/ViewProfile?profileid=@item.ProfileID">@item.ProfileName</a></p>
+                                    <p class="follower">@item.Follower followers</p>
+                                </div>
+                                @{
+                                    if (pro.ProfileID != item.ProfileID)
+                                    {
+                                        if (check)
+                                        {
+                                            <div class="following-button">
+                                                <input type="button" value="Following">
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="follow-button">
+                                                <input type="button" value="Follow">
+                                            </div>
+                                        }
+                                    }
+
+                                }
+                            </div>
+                </div>
+            }
+        }
+        <span class="modal-close-2">X</span>
+    </div>
+</div>
+

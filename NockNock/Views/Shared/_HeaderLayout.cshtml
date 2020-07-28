@@ -1,0 +1,23 @@
+﻿@using DataLibrary.Models
+@{
+    DataLibrary.Models.ProfileModel thisProfile = Context.Session.GetObjectFromJson<ProfileModel>("profile");
+}
+<header id="myHeader">
+    <div class="header">
+        <h1 class="logo"><a href="home.html">Nocknock</a></h1>
+        <div class="search">
+            <form asp-controller="Search" asp-action="SearchByKey">
+                <input type="text" name="textSearch" placeholder="Search..">
+                <button type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </form>
+        </div>
+        <a asp-action="ViewHome" asp-controller="Home">
+            <div class="profile">
+                <div class="profile-img-wrapper"><img src="~/img/@thisProfile.ProfilePhoto"  alt=""></div>
+                <span class="profile-name" href="profile.html">Dua Lipa</span>
+            </div>
+        </a>
+    </div>
+</header>

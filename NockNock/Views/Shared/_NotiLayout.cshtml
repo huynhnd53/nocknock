@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification</title>
+    <link rel="stylesheet" href="~/css/noti.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Neucha&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!--HEADER-->
+    @{ await Html.RenderPartialAsync("_NockNockHeader"); }
+    <div class="container">
+        <!--Content-->
+        <div class="container-wrapper">
+            <div class="content">
+                <!--LEFT SIDEBAR-->
+                <div class="sidebar left-sidebar">
+                    @{ await Html.RenderPartialAsync("_Sidebar");}
+                </div>
+                <div class="main-content">
+                    <div class="content-wrapper">
+                        <!--NOTIFICATION BOARD-->
+                        <div class="noti-area">
+                            <div class="noti-title">
+                                Notification
+                            </div>
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+                <!--right side bar-->
+                <div class="sidebar">
+                    <div class="right-sidebar">
+                        <div class="follow-box">
+                            <div class="follows-title">
+                                <p>Who to follow</p>
+                            </div>
+                            <div class="mini-profile">
+                                <div>
+                                    <div class="mini-profile-avatar">
+                                        <img src="img/10.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="profile-info">
+                                    <p class="profile-name"><a href="other-person.html">Lê Hồng Ngọc</a></p>
+                                    <p class="follower">100 followers</p>
+                                </div>
+                                <div class="following-button">
+                                    <input type="button" value="Following">
+                                </div>
+                            </div>
+                            <div class="mini-profile">
+                                <div>
+                                    <div class="mini-profile-avatar">
+                                        <img src="img/baek.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="profile-info">
+                                    <p class="profile-name"><a href="other-person.html">Byun Baekhyun</a></p>
+                                    <p class="follower">100 followers</p>
+                                </div>
+                                <div class="follow-button">
+                                    <input type="button" value="Follow">
+                                </div>
+                            </div>
+                            <div class="mini-profile">
+                                <div>
+                                    <div class="mini-profile-avatar">
+                                        <img src="img/stranger.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="profile-info">
+                                    <p class="profile-name"><a href="other-person.html">Stranger Things</a></p>
+                                    <p class="follower">100 followers</p>
+                                </div>
+                                <div class="follow-button">
+                                    <input type="button" value="Follow">
+                                </div>
+                            </div>
+                            <div class="follow-seemore">
+                                <a href="">See more</a>
+                            </div>
+                        </div>
+                        <div class="trend-box">
+                            <div class="trend-title">
+                                <p>Trends</p>
+                            </div>
+                            <a href="">
+                                <div class="trend-item">
+                                    <div class="trend-detail">
+                                        <h3>#BlackLivesMatter</h3>
+                                        <p>34K</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="">
+                                <div class="trend-item">
+                                    <div class="trend-detail">
+                                        <h3>#FU</h3>
+                                        <p>34K</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="">
+                                <div class="trend-item">
+                                    <div class="trend-detail">
+                                        <h3>#HuanRose</h3>
+                                        <p>34K</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="">
+                                <div class="trend-item">
+                                    <div class="trend-detail">
+                                        <h3>#Candy1stWIN</h3>
+                                        <p>34K</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="">
+                                <div class="trend-item">
+                                    <div class="trend-detail">
+                                        <h3>#Covid19</h3>
+                                        <p>34K</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/stickyHeader.js">
+    </script>
+</body>
+
+</html>

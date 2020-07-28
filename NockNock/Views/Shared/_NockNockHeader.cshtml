@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Http
+@using DataLibrary.Models  
+@{ 
+    DataLibrary.Models.ProfileModel pro = SessionHelper.GetObjectFromJson<DataLibrary.Models.ProfileModel>(Context.Session, "profile");
+}
+<header id="myHeader">
+    <div class="header">
+        <h1 class="logo"><a href="/Home/ViewHome">Nocknock</a></h1>
+        <div class="search">
+            <form action="/Search/SearchByKey" method="post">
+                <input type="text" name="textSearch" placeholder="Search..">
+                <button type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </form>
+        </div>
+        <a href="/Profile/ViewProfile">
+            <div class="profile">
+                <div class="profile-img-wrapper"><img src="~/img/@pro.ProfilePhoto" alt=""></div>
+                <a class="profile-name" href="/Profile/ViewProfile">@pro.ProfileName</a>
+            </div>
+        </a>
+    </div>
+</header>

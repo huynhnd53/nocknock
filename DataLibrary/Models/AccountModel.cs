@@ -1,0 +1,9 @@
+﻿namespace DataLibrary.Models
+{
+    public class AccountModel
+    {
+        public int AccountID { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+}

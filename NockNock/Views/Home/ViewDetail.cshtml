@@ -1,0 +1,78 @@
+﻿@using Microsoft.AspNetCore.Http
+@model NockNock.Models.PostModel
+@using static DataLibrary.BusinessRule.ProfileProcessor
+@using static DataLibrary.BusinessRule.ReactionProcessor
+@{
+    ViewData["Title"] = "ViewDetail";
+    Layout = "~/Views/Shared/_DetailLayout.cshtml";
+}
+
+@{
+    //get post
+    var p = ViewBag.detail as PostModel;
+    //get list comments
+    var list = ViewBag.cmtList as List<CommentModel>;
+    DataLibrary.Models.ProfileModel pro = SessionHelper.GetObjectFromJson<DataLibrary.Models.ProfileModel>(Context.Session, "profile");
+
+}
+
+@{
+    string username = Context.Session.GetString("username");
+    bool check = checkLike(username, p.PostID);
+    //get short Date
+    string shortDate = p.PostDate.ToShortDateString();
+}
+
+<div class="feed-post">
+    <div class="feed-profile">
+        <div class="profile">
+            <div class="profile-img-wrapper"><img src="/img/@p.ProfileImage" alt=""></div>
+            <div class="feed-title-info">
+                <a class="profile-name" href="/Profile/ViewProfile?profileid=@p.ProfileID">@p.ProfileName</a>
+                <p class="time">@shortDate</p>
+            </div>
+        </div>
+    </div>
+    <div class="feed-content">
+        @p.PostContent
+    </div>
+    <div class="feed-reaction">
+        @{
+            if (check)
+            {
+                <div class="like" onclick="window.location='/Home/React?postid=@p.PostID'"><i style="color: red;" class="fa fa-heart" aria-hidden="true"></i> (@p.NoOfLikes)</div>
+            }
+            else
+            {
+                <div class="like" onclick="window.location='/Home/React?postid=@p.PostID&targetid=@p.ProfileID'"><i class="fa fa-heart-o" aria-hidden="true"></i> (@p.NoOfLikes)</div>
+            }
+        }
+
+        <div class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> (@p.NoOfCmts)</div>
+    </div>
+    <div class="comment-box">
+        @foreach (var item in list)
+        {
+            <div class="comment-item">
+                <div class="profile">
+                    <div class="profile-img-wrapper"><img src="/img/@item.ProfilePhoto" alt=""></div>
+                    <a class="profile-name" href="/Profile/ViewProfile?profileid=@item.ProfileID">@item.ProfileName</a>
+                </div>
+                <div class="comment-area">
+                    <pre><p>@item.CommentContent</p></pre>
+                </div>
+            </div>
+        }
+        <div class="comment-item new-comment">
+            <div class="profile">
+                <div class="profile-img-wrapper"><img src="/img/@pro.ProfilePhoto" alt=""></div>
+            </div>
+            <form action="/Home/Comment?postid=@p.PostID&targetid=@p.ProfileID" method="post">
+                <div id="newcmt">
+                    <textarea name="newcmt" id="" cols="" rows="1" required></textarea>
+                    <div><input onclick="" type="submit" value="POST"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

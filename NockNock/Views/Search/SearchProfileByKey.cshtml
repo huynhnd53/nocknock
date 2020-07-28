@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "_Layout3";
+    ViewBag.Title = "Search Page";
+}
+@using Microsoft.AspNetCore.Http;
+@using static DataLibrary.BusinessRule.FollowProcessor;
+@using static DataLibrary.BusinessRule.ReactionProcessor;
+@{
+    var profile = ViewData["ListProfile"] as List<DataLibrary.Models.ProfileModel>;
+    var key = ViewData["textSearch"] as string;
+    var profileid = Context.Session.GetString("profileid") as string;
+    var username = Context.Session.GetString("username") as string;
+}
+
+<div class="main-content">
+    <div class="content-wrapper">
+        <h1>Results for '@key'</h1>
+        <div class="search-area">
+            <!--Search header: Top, People, Posts-->
+            <div class="search-header">
+                <ul>
+                    <li><a href="/Search/SearchByKey?textSearch=@key">Top</a></li>
+                    <li class="current"><a href="/Search/SearchProfileByKey?textSearch=@key">People</a></li>
+                    <li><a href="/Search/SearchPostByKey?textSearch=@key">Posts</a></li>
+                </ul>
+            </div>
+            <div class="search-result-all">
+                <!--People result-->
+                <div class="people-result">
+                    <p class="result-header">People</p>
+                    @{
+                        if (profile.Count == 0)
+                        {
+                            <p>No people found!</p>
+                        }
+                        else
+                        {
+                            @foreach (var item in profile)
+                            {
+                                bool check = isFollowing(Convert.ToInt32(profileid), item.ProfileID);
+
+                                <div class="profile">
+                                    <div class="profile-img-wrapper"><img src="~/img/@item.ProfilePhoto" alt=""></div>
+                                    <div class="people-profile-info">
+                                        <a class="profile-name" href="Profile/ViewProfile?id=@item.ProfileID">@item.ProfileName</a>
+                                        <p class="follower">@item.Follower followers</p>
+                                    </div>
+                                    @{
+                                        if (check)
+                                        {
+                                            <div class="following-button">
+                                                <input type="button" value="Following">
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="follow-button">
+                                                <input type="button" value="Follow">
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

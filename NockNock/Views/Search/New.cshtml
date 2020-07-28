@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "_Layout3";
+    ViewBag.Title = "Search Page";
+}
+@model IEnumerable<NockNock.Models.PostModel>
+
+<div class="row">
+    <div class="col-md-12">
+        @foreach (var item in Model)
+        {
+
+            <div>
+                Post ID = @item.PostID
+                <div>
+                    User ID = @item.ProfileID
+                </div>
+                <div>
+                    Post Content = @item.PostContent
+                </div>
+                <div>
+                    Date = @item.PostDate
+                </div>
+            </div>
+        }
+    </div>
+</div>

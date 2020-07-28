@@ -1,0 +1,148 @@
+﻿@using DataLibrary.Models
+@model EditProfileModel
+@{
+    Layout = "_Layout2";
+    DataLibrary.Models.ProfileModel thisProfile = Context.Session.GetObjectFromJson<ProfileModel>("profile");
+}
+@section Styles {
+    <link href="@Url.Content("~/css/edit.css")" rel="stylesheet" type="text/css" />
+    <style>
+        .container{
+            width: 800px;    
+        }
+        </style>
+}
+<div class="container">
+    <div class="container-wrapper">
+        <div class="content">
+            <div class="main-content">
+                <div class="content-wrapper">
+                    <!--edit area-->
+                    <div class="edit-area">
+                        <h2>Settings</h2>
+                        <!--profile photo area-->
+                        <div class="profile-photo">
+                            <div class="profile">
+                                <div>
+                                    <div class="profile-img-wrapper"><img src="~/img/@thisProfile.ProfilePhoto" alt=""></div>
+                                </div>
+                                <div class="profile-title">
+                                    <a class="profile-name" href="">@thisProfile.ProfileName</a>
+                                </div>
+                            </div>
+                            <div class="change-button"><button type="button">Change profile photo</button></div>
+                        </div>
+                        <!--edit item: change info-->
+                        <div class="edit-item">
+                            <div class="edit-title">
+                                <h3>Edit personal info</h3>
+                            </div>
+                            <div class="edit-content">
+                                <form asp-action="EditInfo">
+                                    <table class="edit-table">
+                                        <tr>
+                                            <td><label asp-for="ProfileName"></label></td>
+                                            <td><input name="profileName" asp-for="ProfileName" placeholder="Your Name" value="@thisProfile.ProfileName"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bio</td>
+                                            <td>
+                                                @Html.TextArea("bio", @thisProfile.Bio, new { rows = "4", maxlength = "255" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone Number</td>
+                                            <td><input name="phone" asp-for="Phone" placeholder="Phone Number" value="@thisProfile.Phone"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td><input name="email" asp-for="Email" placeholder="Email" value="@thisProfile.Email"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date of Birth</td>
+                                            <td>@Html.TextBox("dateOfBirth", thisProfile.DateOfBirth, "{0:yyyy-MM-dd}", new { type = "date" })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>
+                                                <input type="radio" name="gender" id="male" value="male" @(thisProfile.Gender == true ? "checked" : "")> <label for="male"><i class="fa fa-male" aria-hidden="true"></i> Male </label>
+                                                <input type="radio" name="gender" id="female" value="female" @(thisProfile.Gender == false ? "checked" : "")> <label for="female"><i class="fa fa-female" aria-hidden="true"></i> Female </label>
+                                                <input type="radio" name="gender" id="other" value="other" @(thisProfile.Gender == null ? "checked" : "")> <label for="other">Other </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <td>
+                                                <input type="submit" value="Save">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                        <!--edit item: change password-->
+                        <div class="edit-item">
+                            <div class="edit-title">
+                                <h3>Change password</h3>
+                            </div>
+                            <div class="edit-content">
+                                <form asp-action="EditPassword">
+                                    <span class="text-danger">@ViewData["PasswordError"]</span>
+                                    <span class="text-danger">@ViewData["PasswordSuccess"]</span>
+                                    <table class="edit-table">
+                                        <tr>
+                                            <td>Old password</td>
+                                            <td>
+                                                <input asp-for="OldPassword" placeholder="Old password">
+                                                <span asp-validation-for="OldPassword" class="text-danger"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>New password</td>
+                                            <td><input asp-for="NewPassword" placeholder="New password"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Re-enter new password<br /></td>
+                                            <td>
+                                                <input asp-for="ReNewPassword" placeholder="Re-enter new password">
+                                                <span asp-validation-for="ReNewPassword" class="text-danger"></span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th></th>
+                                            <td>
+                                                <input type="submit" value="Save">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                        <!--edit item: no supported feature-->
+                        <div class="edit-item">
+                            <div class="edit-title">
+                                <h3>Account Privacy</h3>
+                            </div>
+                            <div class="edit-content">
+                                <p>This feature is not yet supported </p>
+                            </div>
+                        </div>
+                        <div class="edit-item">
+                            <div class="edit-title">
+                                <h3>Security</h3>
+                            </div>
+                            <div class="edit-content">
+                                <p>This feature is not yet supported </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="@Url.Content("~/js/stickyHeader.js")"></script>
+}

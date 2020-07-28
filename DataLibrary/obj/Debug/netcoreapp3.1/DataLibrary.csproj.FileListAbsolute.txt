@@ -1,0 +1,17 @@
+C:\Users\AYOWUTUDU\Downloads\PRN292_Project (3)\PRN292_Project\DataLibrary\bin\Debug\netcoreapp3.1\DataLibrary.deps.json
+C:\Users\AYOWUTUDU\Downloads\PRN292_Project (3)\PRN292_Project\DataLibrary\bin\Debug\netcoreapp3.1\DataLibrary.dll
+C:\Users\AYOWUTUDU\Downloads\PRN292_Project (3)\PRN292_Project\DataLibrary\bin\Debug\netcoreapp3.1\DataLibrary.pdb
+C:\Users\AYOWUTUDU\Downloads\PRN292_Project (3)\PRN292_Project\DataLibrary\obj\Debug\netcoreapp3.1\DataLibrary.csprojAssemblyReference.cache
+C:\Users\AYOWUTUDU\Downloads\PRN292_Project (3)\PRN292_Project\DataLibrary\obj\Debug\netcoreapp3.1\DataLibrary.AssemblyInfoInputs.cache
+C:\Users\AYOWUTUDU\Downloads\PRN292_Project (3)\PRN292_Project\DataLibrary\obj\Debug\netcoreapp3.1\DataLibrary.AssemblyInfo.cs
+C:\Users\AYOWUTUDU\Downloads\PRN292_Project (3)\PRN292_Project\DataLibrary\obj\Debug\netcoreapp3.1\DataLibrary.csproj.CoreCompileInputs.cache
+C:\Users\AYOWUTUDU\Downloads\PRN292_Project (3)\PRN292_Project\DataLibrary\obj\Debug\netcoreapp3.1\DataLibrary.dll
+C:\Users\AYOWUTUDU\Downloads\PRN292_Project (3)\PRN292_Project\DataLibrary\obj\Debug\netcoreapp3.1\DataLibrary.pdb
+C:\Users\acer\Desktop\SE1406\C#\My NockNock\PRN292_Project-Final\PRN292_Project (3)\PRN292_Project\DataLibrary\bin\Debug\netcoreapp3.1\DataLibrary.deps.json
+C:\Users\acer\Desktop\SE1406\C#\My NockNock\PRN292_Project-Final\PRN292_Project (3)\PRN292_Project\DataLibrary\bin\Debug\netcoreapp3.1\DataLibrary.dll
+C:\Users\acer\Desktop\SE1406\C#\My NockNock\PRN292_Project-Final\PRN292_Project (3)\PRN292_Project\DataLibrary\bin\Debug\netcoreapp3.1\DataLibrary.pdb
+C:\Users\acer\Desktop\SE1406\C#\My NockNock\PRN292_Project-Final\PRN292_Project (3)\PRN292_Project\DataLibrary\obj\Debug\netcoreapp3.1\DataLibrary.AssemblyInfoInputs.cache
+C:\Users\acer\Desktop\SE1406\C#\My NockNock\PRN292_Project-Final\PRN292_Project (3)\PRN292_Project\DataLibrary\obj\Debug\netcoreapp3.1\DataLibrary.AssemblyInfo.cs
+C:\Users\acer\Desktop\SE1406\C#\My NockNock\PRN292_Project-Final\PRN292_Project (3)\PRN292_Project\DataLibrary\obj\Debug\netcoreapp3.1\DataLibrary.csproj.CoreCompileInputs.cache
+C:\Users\acer\Desktop\SE1406\C#\My NockNock\PRN292_Project-Final\PRN292_Project (3)\PRN292_Project\DataLibrary\obj\Debug\netcoreapp3.1\DataLibrary.dll
+C:\Users\acer\Desktop\SE1406\C#\My NockNock\PRN292_Project-Final\PRN292_Project (3)\PRN292_Project\DataLibrary\obj\Debug\netcoreapp3.1\DataLibrary.pdb

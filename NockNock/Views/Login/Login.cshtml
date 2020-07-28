@@ -1,0 +1,28 @@
+﻿@model LoginModel
+@{
+    Layout = "_SigninLayout";
+    ViewData["Title"] = "Signin to NockNock";
+}
+<div class="login-form-container">
+    <form asp-action="Login" class="main-form active">
+        <h1>Login</h1>
+        <span class="text-danger">@ViewData["LoginError"]</span>
+        <div class="txtb form-group">
+            <input id="username" asp-for="Username">
+            <span data-placeholder="Username"></span>
+        </div>
+        <span asp-validation-for="Username" class="text-danger"></span>
+        <div class="txtb form-group">
+            <input id="password" asp-for="Password">
+            <span data-placeholder="Password"></span>
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+        <input id="loginButton" type="submit" class="logbtn" value="Login">
+        <div class="bottom-text">
+            Don't have account? <span class="signup-link"><a asp-action="Register">Sign up</a></span>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

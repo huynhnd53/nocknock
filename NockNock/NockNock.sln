@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NockNock", "NockNock.csproj", "{EA6888B5-7A65-468A-8ACE-BE5E3193A38F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLibrary", "..\DataLibrary\DataLibrary.csproj", "{AD0388C2-A80F-41E3-A2A7-BADB31A216F7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA6888B5-7A65-468A-8ACE-BE5E3193A38F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA6888B5-7A65-468A-8ACE-BE5E3193A38F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA6888B5-7A65-468A-8ACE-BE5E3193A38F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA6888B5-7A65-468A-8ACE-BE5E3193A38F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD0388C2-A80F-41E3-A2A7-BADB31A216F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD0388C2-A80F-41E3-A2A7-BADB31A216F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD0388C2-A80F-41E3-A2A7-BADB31A216F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD0388C2-A80F-41E3-A2A7-BADB31A216F7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02F31140-1F63-4891-9CB4-FAE990AA6E72}
+	EndGlobalSection
+EndGlobal

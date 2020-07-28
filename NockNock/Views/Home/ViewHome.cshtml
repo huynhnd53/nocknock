@@ -1,0 +1,153 @@
+﻿@using Microsoft.AspNetCore.Http
+@using DataLibrary.Models
+@model IEnumerable<NockNock.Models.PostModel>
+@using static DataLibrary.BusinessRule.ReactionProcessor
+@{
+    DataLibrary.Models.ProfileModel pro = SessionHelper.GetObjectFromJson<DataLibrary.Models.ProfileModel>(Context.Session, "profile");
+}
+@{
+    ViewData["Title"] = "ViewHome";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--CREATE NEW POST-->
+<div class="post-area">
+    <div class="new-post-title">
+        <p>Create new post</p>
+    </div>
+    <form action="/Home/NewPost?profileid=@pro.ProfileID" method="post">
+        <div class="new-post">
+            <div class="post-avatar">
+                <img src="/img/@pro.ProfilePhoto" alt="">
+            </div>
+            <div class="post-text">
+                <textarea name="status" rows="7" required></textarea>
+            </div>
+            <div class="create-post">
+                <input type="submit" value="Post">
+            </div>
+        </div>
+    </form>
+</div>
+<h2>New Feed</h2>
+<hr style="height:2px;border-width:0;color:gray;background-color:gray">
+<!--new feed-->
+<div id="post">
+
+    @{
+        string username = Context.Session.GetString("username");
+    }
+    @foreach (var item in Model)
+    {
+        string imgPath = "/img/" + item.ProfileImage;
+        string shortDate = item.PostDate.ToShortDateString();
+        bool check = checkLike(username, item.PostID);
+        <div class="feed-post" onclick="window.location='/Home/ViewDetail?id=@item.PostID'">
+            <div class="feed-profile">
+                <div class="profile">
+                    <div class="profile-img-wrapper"><img src="@imgPath" alt=""></div>
+                    <div class="feed-title-info">
+                        <a class="profile-name" href="/Profile/ViewProfile?profileid=@item.ProfileID">@item.ProfileName</a>
+                        <p class="time">@shortDate</p>
+                    </div>
+                </div>
+            </div>
+            <div class="feed-content">
+                @item.PostContent
+            </div>
+            <div class="feed-reaction">
+                @{
+                    if (check == true)
+                    {
+                        <div class="like"><i style="color: red;" class="fa fa-heart" aria-hidden="true"></i> (@item.NoOfLikes)</div>
+                    }
+                    else
+                    {
+                        <div class="like"><i class="fa fa-heart-o" aria-hidden="true"></i> (@item.NoOfLikes)</div>
+                    }
+                }
+                <div class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> (@item.NoOfCmts)</div>
+            </div>
+        </div>
+    }
+</div>
+
+<script lang="en" type="text/javascript">
+    var start = 11;
+    var end = 12;
+    var post = document.getElementById("post");
+    $(document).ready(function() {
+        var win = $(window);
+
+        // Each time the user scrolls
+        win.scroll(function() {
+            // End of the document reached?
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                $.ajax({
+                    url: '/Home/LoadPostAtEndOfPage?start=' + start + '&end=' + end,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        for (i = 0; i < response.length; i++) {
+                            var check = checkPostLikedByUser('@username', response[i]["postID"]);
+                            console.log('abc='+check);
+                            renderHtml(response[i],check);
+                        };
+                        start += 5;
+                        end += 5;
+                    },
+                    error: function(xhr) {
+                        //debugger;
+                        console.log(xhr.responseText);
+                        alert("Error has occurred..");
+                    }
+                });
+            }
+        });
+    });
+
+    function checkPostLikedByUser(username, postId) {
+        var result;
+        $.ajax({
+            url: '/Home/CheckLike?username=' + username + '&postId=' + postId,
+            type: "GET",
+            dataType: "json",
+            async:false,
+            success: function(response) {
+                result = response;
+            },
+            error: function(xhr) {
+                //debugger;
+                alert("Error has occurred..");
+                result= false;
+            }
+        });
+        return result;
+    };
+
+    function renderHtml(item,checkLike) {
+        var content = "<div class=\"feed-post\" onclick=\"window.location = '/Home/ViewDetail?id=" + item["postID"] + "'>";
+        content += "<div class=\"feed-profile\">";
+        content += "<div class=\"profile\">";
+        content += "<div class=\"profile-img-wrapper\"><img src=\"/img/" + item["profileImage"] + "\"></div>";
+        content += "<div class=\"feed-title-info\">";
+        content += "<a class=\"profile-name\" href=\"/Profile/ViewProfile?profileid=" + item["profileID"] + "\">" + item["profileName"] + "</a>"
+        content += "<p class=\"time\">" + item["postDate"] + "</p>";
+        content += "</div>";
+        content += "</div>";
+        content += "<div class=\"feed-content\">";
+        content += item["postContent"];
+        content += "</div>";
+        content += "<div class=\"feed-reaction\">";
+        if (checkLike==true) {
+        content += "<div class=\"like\"><i style=\"color: red;\" class=\"fa fa-heart\" aria-hidden=\"true\"></i> (" + item["noOfLikes"] + ")</div>";
+        } else {
+            content += "<div class=\"like\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i> (" + item["noOfLikes"] + ")</div>";
+        }
+        content += "<div class=\"comment\"><i class=\"fa fa-comment-o\" aria-hidden=\"true\"></i>  (" + item["noOfLikes"] + ")</div>";
+        content += "</div>";
+        content += "</div>";
+        content += "</div>";
+        post.insertAdjacentHTML('beforeend', content);
+    };
+</script>

@@ -1,0 +1,33 @@
+﻿@model RegisterModel
+@{
+    Layout = "_SigninLayout";
+    ViewData["Title"] = "Register";
+}
+<div class="login-form-container">
+    <form asp-action="Register" class="main-form register-form">
+        <h1>Register</h1>
+        <span class="text-danger">@ViewData["RegisterError"]</span>
+        <div class="txtb">
+            <input asp-for="Username">
+            <span data-placeholder="Username"></span>
+        </div>
+        <span asp-validation-for="Username" class="text-danger"></span>
+        <div class="txtb">
+            <input asp-for="Password">
+            <span data-placeholder="Password"></span>
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+        <div class="txtb">
+            <input asp-for="RePassword">
+            <span data-placeholder="RePassword"></span>
+        </div>
+        <span asp-validation-for="RePassword" class="text-danger"></span>
+        <input type="submit" class="logbtn" value="Register">
+        <div class="bottom-text">
+            Don't have account? <span class="signup-link"><a asp-action="Index">Login</a></span>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

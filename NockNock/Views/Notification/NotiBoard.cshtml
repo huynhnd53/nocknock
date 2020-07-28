@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewData["Title"] = "NotiBoard";
+    Layout = "~/Views/Shared/_NotiLayout.cshtml";
+}
+@*function calculate timespan*@
+@functions{
+    public string calTimeSpan(DateTime d1, DateTime d2)
+    {
+        double year = 525948.766;
+        double month = 43829.0639;
+        double week = 10080;
+        double day = 1440;
+        double hour = 60;
+        double minute = 1;
+        TimeSpan ts = d1 - d2;
+        double totalMins = ts.TotalMinutes;
+        string result = "";
+        if (totalMins >= year)
+        {
+            result = (int)Math.Round(totalMins / year) + " years ago";
+        }
+        else if (totalMins < year && totalMins >= month)
+        {
+            result = (int)Math.Round(totalMins / month) + " months ago";
+        }
+        else if (totalMins < month && totalMins >= week)
+        {
+            result = (int)Math.Round(totalMins / week) + " weeks ago";
+        }
+        else if (totalMins < week && totalMins >= day)
+        {
+            result = (int)Math.Round(totalMins / day) + " days ago";
+        }
+        else if (totalMins < day && totalMins >= hour)
+        {
+            result = (int)Math.Round(totalMins / hour) + " hours ago";
+        }
+        else if (totalMins < hour && totalMins >= minute)
+        {
+            result = (int)Math.Round(totalMins / minute) + " minutes ago";
+        }
+        else
+        {
+            result = (int)Math.Round(totalMins * 60) + " seconds ago";
+        }
+        return result;
+    }
+} 
+
+@model IEnumerable<NockNock.Models.NotificationModel>
+@*each page has 10 noti items*@
+<div class="noti-detail">
+    @{
+        foreach (var item in Model)
+        {
+            Boolean check = item.TypeNoti.Equals("Follow");
+            string pathDirect = "/Home/ViewDetail?id=" + item.PostID;
+            if (check)
+            {
+                pathDirect = "";
+            }
+            
+            <div class="noti-item" onclick="@pathDirect">
+                <div>
+                    <div class="profile-img-wrapper"><img src="/img/@item.SenderPhoto" alt=""></div>
+                </div>
+                <div class="noti-text">
+                    @{
+                        
+                        if (item.TypeNoti == "Like")
+                        {
+                            <a class="noti-item-title" href="/Home/ViewDetail?id=@item.PostID"><span>@item.SenderName</span> liked your <span>post</span></a>
+                            <p><span><i class="fa fa-heart" aria-hidden="true"></i></span> @calTimeSpan(DateTime.Now,item.NotiDate)</p>
+                        }
+                        else if (item.TypeNoti == "Comment")
+                        {
+                            <a class="noti-item-title" href="/Home/ViewDetail?id=@item.PostID"><span>@item.SenderName</span> left a comment on your <span>post</span></a>
+                            <p><span><i class="fa fa-comment" aria-hidden="true"></i></span> @calTimeSpan(DateTime.Now, item.NotiDate)</p>
+                        }
+                        //noti follow
+                        else
+                        {
+                            <a class="noti-item-title" href="/Profile/ViewProfile?profileid=@item.SenderID"><span>@item.SenderName</span> has started following <span>you</span></a>
+                            <p><span><i class="fa fa-user" aria-hidden="true"></i></span> @calTimeSpan(DateTime.Now, item.NotiDate)</p>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>
+<!--PAGING-->
+<div class="paging">
+    <span><a href="">1</a></span>
+    <span><a href="">2</a></span>
+    <span><a href="">3</a></span>
+    <span><a href="">4</a></span>
+    <span><a href="">5</a></span>
+    <span><a href="">6</a></span>
+</div>
+

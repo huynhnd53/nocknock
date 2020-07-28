@@ -1,0 +1,74 @@
+﻿@{
+    Layout = "_Layout3";
+    ViewBag.Title = "Search Page";
+}
+@using Microsoft.AspNetCore.Http;
+@using static DataLibrary.BusinessRule.FollowProcessor;
+@using static DataLibrary.BusinessRule.ReactionProcessor;
+@{
+    var post = ViewData["ListPost"] as List<NockNock.Models.PostModel>;
+    var key = ViewData["textSearch"] as string;
+    var profileid = Context.Session.GetString("profileid") as string;
+    var username = Context.Session.GetString("username") as string;
+}
+<div class="main-content">
+    <div class="content-wrapper">
+        <h1>Results for '@key'</h1>
+        <div class="search-area">
+            <!--Search header: Top, People, Posts-->
+            <div class="search-header">
+                <ul>
+                    <li><a href="/Search/SearchByKey?textSearch=@key">Top</a></li>
+                    <li><a href="/Search/SearchProfileByKey?textSearch=@key">People</a></li>
+                    <li class="current"><a href="/Search/SearchPostByKey?textSearch=@key">Posts</a></li>
+                </ul>
+            </div>
+            <div class="search-result-all">
+                <div class="post-result">
+                    <p class="result-header">Posts</p>
+                    @{
+                        if (post.Count == 0)
+                        {
+                            <p>No posts found!</p>
+                        }
+                        else
+                        {
+                            @foreach (var item in post)
+                            {
+                                string shortDate = item.PostDate.ToShortDateString();
+                                bool check = checkLike(username, item.PostID);
+                                <div class="feed-post" onclick="window.location='/Home/ViewDetail?id=@item.PostID'">
+                                    <div class="feed-profile">
+                                        <div class="profile">
+                                            <div class="profile-img-wrapper"><img src="~/img/@item.ProfileImage" alt=""></div>
+                                            <div class="feed-title-info">
+                                                <a class="profile-name" href="Profile/ViewProfile?profileid=@item.ProfileID">@item.ProfileName</a>
+                                                <p class="time">@shortDate</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="feed-content">
+                                        @item.PostContent
+                                    </div>
+                                    <div class="feed-reaction">
+                                        @{
+                                            if (check)
+                                            {
+                                                <div class="like"><i class="fa fa-heart" style="color: red;" aria-hidden="true"></i>(@item.NoOfLikes)</div>
+                                            }
+                                            else
+                                            {
+                                                <div class="like"><i class="fa fa-heart-o" aria-hidden="true"></i>(@item.NoOfLikes)</div>
+                                            }
+                                        }
+                                        <div class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i> (@item.NoOfCmts)</div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
